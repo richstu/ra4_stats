@@ -55,16 +55,16 @@ int main(int argc, char *argv[]){
 }
 
 void ReadPoints(vector<double> &vmx,
-		vector<double> &vmy,
-		vector<double> &vxsec,
-		vector<double> &vobs,
-		vector<double> &vobsup,
-		vector<double> &vobsdown,
-		vector<double> &vexp,
-		vector<double> &vup,
-		vector<double> &vdown,
-		vector<double> &vsigobs,
-		vector<double> &vsigexp){
+                vector<double> &vmy,
+                vector<double> &vxsec,
+                vector<double> &vobs,
+                vector<double> &vobsup,
+                vector<double> &vobsdown,
+                vector<double> &vexp,
+                vector<double> &vup,
+                vector<double> &vdown,
+                vector<double> &vsigobs,
+                vector<double> &vsigexp){
   ifstream infile(filename_);
   string line;
 
@@ -118,10 +118,10 @@ TH2D MakeObservedSignificancePlot(vector<double> vmx,
   TGraph2D g("", title.c_str(), vobs.size(), &vmx.at(0), &vmy.at(0), &vobs.at(0));
 
   double the_max = 3.;
-  for(int i = 0; i < g.GetN(); ++i){
-    double z = fabs(g.GetZ()[i]);
-    if(z>the_max) the_max = z;
-  }
+  // for(int i = 0; i < g.GetN(); ++i){
+  //   double z = fabs(g.GetZ()[i]);
+  //   if(z>the_max) the_max = z;
+  // }
   g.SetMinimum(-the_max);
   g.SetMaximum(the_max);
 
@@ -135,9 +135,9 @@ TH2D MakeObservedSignificancePlot(vector<double> vmx,
   c.cd();
 
   TLatex ltitle(c.GetLeftMargin(), 1.-0.5*c.GetTopMargin(),
-	      "#font[62]{CMS}#scale[0.76]{#font[52]{ Supplementary}}");
+              "#font[62]{CMS}#scale[0.76]{#font[52]{ Supplementary}}");
   TLatex rtitle(1.-c.GetRightMargin(), 1.-0.5*c.GetTopMargin(),
-	       "#scale[0.8]{35.9 fb^{-1} (13 TeV)}");
+               "#scale[0.8]{35.9 fb^{-1} (13 TeV)}");
   ltitle.SetNDC();
   rtitle.SetNDC();
   ltitle.SetTextAlign(12);
@@ -216,9 +216,9 @@ TH2D MakeExpectedSignificancePlot(vector<double> vmx,
   c.cd();
 
   TLatex ltitle(c.GetLeftMargin(), 1.-0.5*c.GetTopMargin(),
-	      "#font[62]{CMS}#scale[0.76]{#font[52]{ Supplementary}}");
+              "#font[62]{CMS}#scale[0.76]{#font[52]{ Supplementary}}");
   TLatex rtitle(1.-c.GetRightMargin(), 1.-0.5*c.GetTopMargin(),
-	       "#scale[0.8]{35.9 fb^{-1} (13 TeV)}");
+               "#scale[0.8]{35.9 fb^{-1} (13 TeV)}");
   ltitle.SetNDC();
   rtitle.SetNDC();
   ltitle.SetTextAlign(12);
@@ -391,7 +391,7 @@ void Style(TGraph *g, int color, int style, float width){
 }
 
 TGraph DrawContours(TGraph2D &g2, int color, int style, double width,
-		    int n_smooth, double val){
+                    int n_smooth, double val){
   TGraph graph;
 
   TList *l;
@@ -421,16 +421,16 @@ TGraph DrawContours(TGraph2D &g2, int color, int style, double width,
     for(int binx=1; binx<=htemp.GetNbinsX(); ++binx){
       double x = htemp.GetXaxis()->GetBinCenter(binx);
       for(int biny=1; biny<=htemp.GetNbinsY(); ++biny){
-	double y = htemp.GetYaxis()->GetBinCenter(biny);
-	double z = htemp.GetBinContent(htemp.GetBin(binx,biny));
+        double y = htemp.GetYaxis()->GetBinCenter(biny);
+        double z = htemp.GetBinContent(htemp.GetBin(binx,biny));
         
-	vx.push_back(x);
-	vy.push_back(y);
-	int thresh = glu_lsp+30;
-	if (model_=="T5tttt") thresh = glu_lsp+85;
-	if(x-y>thresh){
+        vx.push_back(x);
+        vy.push_back(y);
+        int thresh = glu_lsp+30;
+        if (model_=="T5tttt") thresh = glu_lsp+85;
+        if(x-y>thresh){
           vz.push_back(z);
-	}else{
+        }else{
           vz.push_back(g2.Interpolate(x,y));
         }
       }
@@ -491,8 +491,8 @@ void FixGraph(TGraph &graph){
     graph.GetPoint(point, mglu, mlsp);
     if(mlsp > mglu-glu_lsp-5){
       while(point <= graph.GetN() && point!=0) {
-	graph.RemovePoint(graph.GetN()-1);
-	np--;
+        graph.RemovePoint(graph.GetN()-1);
+        np--;
       }
       break;
     }
